@@ -13,8 +13,7 @@ import (
 )
 
 var (
-	maxResults = flag.Int64("max-results", 25, "Max YouTube results")
-	url        = flag.String("url", "", "")
+	url = flag.String("url", "", "")
 )
 
 func findVideoId(url string) string {
@@ -58,7 +57,7 @@ func main() {
 	// Make the API call to YouTube.
 	call := videosService.List("snippet").
 		Id(videoid).
-		MaxResults(*maxResults)
+		MaxResults(1)
 	response, err := call.Do()
 	if err != nil {
 		log.Fatalf("Error making search API call: %v", err)
@@ -79,10 +78,15 @@ func main() {
 	*/
 	// Iterate through each item and add it to the correct list.
 	for _, item := range response.Items {
-		fmt.Println(item.ContentDetails)
-		fmt.Println(item.Id)
-		fmt.Println(item.Kind)
+		// fmt.Println(item.ContentDetails)
+		// fmt.Println(item.Id)
+		// fmt.Println(item.Kind)
 		fmt.Println(item.Snippet.Thumbnails.High.Url)
+		fmt.Println(item.Snippet.Thumbnails.Medium.Url)
+		fmt.Println(item.Snippet.Thumbnails.Standard.Url)
+		fmt.Println(item.Snippet.Thumbnails.Default.Url)
+		fmt.Println(item.Snippet.Description)
+		fmt.Println(item.Snippet.Title)
 		//fmt.Println(item)
 	}
 }
